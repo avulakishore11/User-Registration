@@ -4,25 +4,31 @@ trigger:
 pool:
   name: 'userreg-pool'
 
-
-
 stages:
 - stage: Build
   jobs:
   - job: Build
     steps:
-
     - task: Maven@3
-      displayName: 'Build finished'
+      displayName: 'Build with Maven'
       inputs:
         mavenPomFile: 'pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'Path'
+        jdkUserInputPath: $(JAVA_HOME)
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'clean package'
+        
     - task: CopyFiles@2
-      displayName: 'copy the build output'
+      displayName: 'Copy the build output'
       inputs:
-        Contents: '**'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        contents: '**'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'drop'
+        publishLocation: 'Container'
