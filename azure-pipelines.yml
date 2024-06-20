@@ -11,8 +11,11 @@ stages:
   jobs:
   - job: Build
     steps:
-    - script: sudo apt-get update && sudo apt-get install openjdk-8-jdk -y
-      displayName: 'Install OpenJDK 8'
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '1.8'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'PreInstalled'
 
     - task: Maven@3
       displayName: 'Build finished'
