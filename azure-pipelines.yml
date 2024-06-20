@@ -1,23 +1,18 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
-- master
+- main
 
 pool:
   name: 'webgoat-agent'
+
+
 
 stages:
 - stage: Build
   jobs:
   - job: Build
     steps:
-    - task: JavaToolInstaller@0
-      inputs:
-        versionSpec: '8'
-        jdkArchitectureOption: 'x64'
+    - script: sudo apt-get update && sudo apt-get install openjdk-8-jdk -y
+      displayName: 'Install OpenJDK 8'
 
     - task: Maven@3
       inputs:
@@ -29,5 +24,7 @@ stages:
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'clean package'
-
-
+    - task: CopyFiles@2
+      inputs:
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
