@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  name: 'webgoat-agent'
+  name: 'userreg-pool'
 
 
 
@@ -15,6 +15,7 @@ stages:
       displayName: 'Install OpenJDK 8'
 
     - task: Maven@3
+      displayName: 'Build finished'
       inputs:
         mavenPomFile: 'pom.xml'
         mavenOptions: '-Xmx3072m'
@@ -25,6 +26,7 @@ stages:
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'clean package'
     - task: CopyFiles@2
+      displayName: 'copy the build output'
       inputs:
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
