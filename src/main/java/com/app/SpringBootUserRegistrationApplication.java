@@ -1,13 +1,22 @@
+
+
 package com.app;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootApplication
-public class SpringBootUserRegistrationApplication {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SpringBootUserRegistrationApplicationTests {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootUserRegistrationApplication.class, args);
-	}
+    private static final Logger logger = LoggerFactory.getLogger(SpringBootUserRegistrationApplicationTests.class);
 
+    @Test
+    public void contextLoads() {
+        logger.info("Context loads test started");
+    }
 }
